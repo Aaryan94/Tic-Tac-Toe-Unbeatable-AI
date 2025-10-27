@@ -38,9 +38,9 @@ Project Structure:
 - game.py
 - player.py
 - tests/
-    test_game.py
-    test_search.py
+    - test_game.py
+    - test_search.py
 - benchmarks/
-    comparison_bench.py
-    run_match.py
+    - comparison_bench.py
+    - run_match.py
 - README.md
