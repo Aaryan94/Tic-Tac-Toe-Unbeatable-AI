@@ -3,10 +3,12 @@
 A fast and smart Tic-Tac-Toe engine that scales to n x n boards.
 
 Includes:
+- Full game implementation
 - Alpha-beta-pruned Minimax AI
-- Move ordering optimization (center-first)
+- Move ordering optimisation (centre-first)
 - Soft time caps per move for large boards
 - O(n) win checking
+- Manhattan heuristics to evaluate state when depth/time limit exceeded
 - Full test suite using pytest
 - Benchmarks to analyze AI performance
 
