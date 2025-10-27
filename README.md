@@ -33,3 +33,14 @@ What I built:
 Together these allow:
 - Perfect play on 3x3.
 - Strong play and quick performance on bigger boards
+
+Project Structure:
+- game.py
+- player.py
+- tests/
+    test_game.py
+    test_search.py
+- benchmarks/
+    comparison_bench.py
+    run_match.py
+- README.md
