@@ -19,7 +19,7 @@ How to run:
     pip install pytest
     python3 -m pytest -q
 
-When testing/benchmarking ensure to comment out line 103 of game.p (time.sleep(0.5)) otherwise you will skew tests/benchmarks.
+When testing/benchmarking ensure to comment out line 103 of game.py (time.sleep(0.5)) otherwise you will skew tests/benchmarks.
 
 What I built:
 - Minimax AI with Alpha-Beta Pruning.
