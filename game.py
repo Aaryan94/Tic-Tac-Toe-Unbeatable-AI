@@ -100,7 +100,7 @@ def play(game, x_player, o_player, print_game=True): # Game loop
 
             letter = 'O' if letter == 'X' else 'X' # Toggles to next player's turn
 
-        #time.sleep(0.1)  # This allows pacing of board prints/turns, disabled for testing/benchmarking
+        time.sleep(0.5)  # This allows pacing of board prints/turns, disabled for testing/benchmarking
 
     if print_game:
         print("It's a tie!")
