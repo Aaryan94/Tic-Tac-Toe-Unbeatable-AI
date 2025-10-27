@@ -19,8 +19,6 @@ How to run:
     pip install pytest
     python3 -m pytest -q
 
-When testing/benchmarking ensure to comment out line 103 of game.py (time.sleep(0.5)) otherwise you will skew tests/benchmarks.
-
 What I built:
 - Minimax AI with Alpha-Beta Pruning.
 - Heuristics to evaluate positions when full search is too expensive.
