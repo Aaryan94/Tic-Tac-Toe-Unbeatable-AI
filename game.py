@@ -11,7 +11,7 @@ class TicTacToe:
     """
     def __init__(self, n=3):
         self.n = n
-        self.board = [' ' for _ in range(n * n)] # Flat board: cheaper than 2D list for small n
+        self.board = [' ' for _ in range(n * n)] # Flat board: cheaper than 2D list for large n --> easier to slice
         self.current_winner = None # Set once on winning move
 
     def print_board(self):

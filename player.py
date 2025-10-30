@@ -48,13 +48,14 @@ class SmartComputerPlayer(Player):
       - Lightweight heuristic on uncontested lines (fast, consistent)
       - Win/loss terminal scores scaled by remaining empties to prefer quicker wins / slower losses
     """
-    def __init__(self, letter, max_depth=None, time_limit_ms=200):
+    def __init__(self, letter, max_depth=None, time_limit_ms=200, print_minimax=True):
         super().__init__(letter)
         self.call_count = 0 # Nodes visited in the current move
         self.call_counts = []  # History for benchmarkers
         self.move_times = [] # Per move elapsed time
         self.max_depth = max_depth
         self.time_limit_ms = time_limit_ms
+        self.print_minimax = print_minimax
 
     def get_move(self, game):
         self.call_count = 0
@@ -86,23 +87,33 @@ class SmartComputerPlayer(Player):
 
         self.call_counts.append(self.call_count)
         self.move_times.append(elapsed)
-        #print(f"Minimax called {self.call_count} times for this move, time: {elapsed*1000:.2f} ms") --> uncomment to see metrics per move
+        if self.print_minimax:
+            print(f"Minimax called {self.call_count} times for this move, time: {elapsed*1000:.2f} ms") # Metrics per move
         return square
 
     def _ordered_moves(self, game):
-        # Centre first ordering (approximated by Manhattan distance to centre) to enhance pruning
-        # Used because central moves tend to create/contest more lines. Exploring them first often tightens alpha/beta bounds earlier.
-        n = game.n
-        moves = set(game.available_moves())
-        centre_r = (n - 1) / 2.0
-        centre_c = (n - 1) / 2.0
-        scored_moves = []
-        for idx in moves:
-            r, c = divmod(idx, n)
-            manhattan_dist = abs(r - centre_r) + abs(c - centre_c)  # Manhattan distance to centre
-            scored_moves.append((manhattan_dist, idx))
-        scored_moves.sort()
-        return [idx for _, idx in scored_moves]
+            """ Manhattan (O(1)):
+                n = game.n
+                moves = set(game.available_moves())
+                centre_r = (n - 1) / 2.0
+                centre_c = (n - 1) / 2.0
+                scored_moves = []
+                for idx in moves:
+                    r, c = divmod(idx, n)
+                    manhattan_dist = abs(r - centre_r) + abs(c - centre_c)  # Manhattan distance to centre
+                    scored_moves.append((manhattan_dist, idx))
+                scored_moves.sort()
+                return [idx for _, idx in scored_moves]
+            """
+            # Centre first ordering (approximated by rule based heuristics) to enhance pruning (O(n))
+            scores = []
+            for move in game.available_moves():
+                game.board[move] = self.letter
+                score = self._evaluate_position(game)
+                game.board[move] = ' ' 
+                scores.append((score, move))
+            scores.sort(reverse=True)
+            return [m for s, m in scores]
 
     def _evaluate_position(self, state):
         """
@@ -148,8 +159,6 @@ class SmartComputerPlayer(Player):
             score -= d2.count(opp)
 
         return score
-
-
 
     def minimax(self, state, player, alpha, beta, depth=None, stop_at=None):
         """

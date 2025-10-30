@@ -11,7 +11,7 @@ DEPTH = None        # None = perfect on 3x3, depth 4 otherwise
 
 def play_one(n, smart_as, depth): # Plays one full game of Smart vs Random
     g = TicTacToe(n=n)
-    smart = SmartComputerPlayer(smart_as, max_depth=depth, time_limit_ms=0)
+    smart = SmartComputerPlayer(smart_as, max_depth=depth, time_limit_ms=0, print_minimax=False)
     rnd = RandomComputerPlayer('O' if smart_as == 'X' else 'X') # Role flipping allows us to test Smart as both first and second player
     x = smart if smart_as == 'X' else rnd
     o = rnd if smart_as == 'X' else smart
@@ -41,7 +41,7 @@ def depth_for(n): # Auto depth policy --> perfect search for 3x3 where game tree
 def main():
     random.seed(0) # random.seed ensures AI faces the same situations each run so that differences in performance actually come from algorithm changes and not luck
 
-    print("Size | Depth | Role | Games  | Wins  | Draws  | Losses  | Win %  | Draw % | Loss %")
+    print("Size | Depth  | Role  | Games  | Wins  | Draws  | Losses  |  Win %  |  Draw % |  Loss %")
 
     # For each board size we test Smart as both first player (X) and second player (O)
     for n in SIZES:
@@ -49,9 +49,7 @@ def main():
         d_str = str(d if d is not None else "auto")
         for role in ('X', 'O'):
             wins, draws, losses, winp, drawp, lossp = run_series(n, GAMES, role, d)
-            print(f"{n:>4} | {d_str:>5} |   {role}  | {GAMES:6} | "
-                  f"{wins:5} | {draws:6} | {losses:7} | "
-                  f"{winp:6.2%} | {drawp:6.2%} | {lossp:6.2%}")
+            print(f"{n:<4} | {d_str:<6} | {role:^5} | {GAMES:>6} | {wins:>5} | {draws:>6} | {losses:>7} | {winp:>7.2%} | {drawp:>7.2%} | {lossp:>7.2%}")
 
 if __name__ == "__main__":
     main()

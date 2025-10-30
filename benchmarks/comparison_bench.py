@@ -110,7 +110,7 @@ def benchmark_one_move(n, depth, time_ms, mode="PRUNE_ON", start_pos=None):
         for sq, ch in start_pos:
             g.make_move(sq, ch)
 
-    ai = SmartComputerPlayer('X', max_depth=depth, time_limit_ms=time_ms) # Player to benchmark
+    ai = SmartComputerPlayer('X', max_depth=depth, time_limit_ms=time_ms, print_minimax=False) # Player to benchmark
 
     # Toggling pruning and ordering
     restore = {}
@@ -146,7 +146,7 @@ def run_bench(): # Loops through sizes and modes and prints benchmark results
 
     modes = ["PRUNE_ON", "ORDER_OFF", "PRUNE_OFF"]
   
-    print("Board | Depth | Time(ms) | Mode       | avg_nodes |  avg_ms | nodes/sec")
+    print("Board | Depth | Time(ms) | Mode       | avg_nodes |   avg_ms | nodes/sec")
 
     for n, depth, time_ms, repeats in configs:
         positions = generate_test_positions(n)
@@ -164,8 +164,7 @@ def run_bench(): # Loops through sizes and modes and prints benchmark results
             avg_ms = mean(all_ms) if all_ms else 0.0
             nps = (avg_nodes / (avg_ms / 1000.0)) if avg_ms > 0 else 0.0
 
-            print(f"{n}x{n}   | {depth if depth is not None else 'auto':>5} | {time_ms:>8} | {mode:10} "
-                  f"| {avg_nodes:>9} | {avg_ms:7.2f} | {nps:9.0f}")
+            print(f"{n}x{n:<3} | {str(depth if depth is not None else 'auto'):<5} | {time_ms:<8} | {mode:<10} | {avg_nodes:>9} | {avg_ms:>8.2f} | {nps:>10.0f}")
         print()
 
 if __name__ == "__main__":
